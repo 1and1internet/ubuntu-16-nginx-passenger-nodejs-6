@@ -9,4 +9,6 @@ RUN \
 	rm -f setup-nodejs && \
 	apt-get install -y build-essential nodejs && \
 	sed -i 's|wsgi;|node;\n        passenger_startup_file app.js;|' /etc/nginx/sites-enabled/default && \
-	/usr/bin/passenger-config validate-install  --auto --no-colors
+	/usr/bin/passenger-config validate-install  --auto --no-colors && \
+  apt-get -y clean && \
+  rm -rf /var/lib/apt/lists/*
