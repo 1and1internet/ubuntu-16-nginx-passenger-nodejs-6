@@ -5,10 +5,13 @@ COPY src /usr/src
 COPY files /
 RUN \
 	apt-get update -q && \
-	apt-get install -y curl apt-transport-https ca-certificates && \
-	curl --fail -ssL -o setup-nodejs https://deb.nodesource.com/setup_6.x && \
-	bash setup-nodejs && \
-	rm -f setup-nodejs && \
+	apt-get install -y curl apt-transport-https ca-certificates lsb-release && \
+	DISTRO=$(lsb_release -c -s) && \
+	NODEREPO="node_6.x" && \
+	curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+	echo "deb https://deb.nodesource.com/${NODEREPO} ${DISTRO} main" > /etc/apt/sources.list.d/nodesource.list && \
+	echo "deb-src https://deb.nodesource.com/${NODEREPO} ${DISTRO} main" >> /etc/apt/sources.list.d/nodesource.list && \
+	apt-get update -q && \
 	apt-get install -y build-essential nodejs && \
 	sed -i 's|wsgi;|node;\n        passenger_startup_file app.js;|' /etc/nginx/sites-enabled/default && \
 	/usr/bin/passenger-config validate-install  --auto --no-colors && \
