@@ -1,7 +1,6 @@
 FROM 1and1internet/ubuntu-16-nginx-passenger
 MAINTAINER brian.wilkinson@1and1.co.uk
 ARG DEBIAN_FRONTEND=noninteractive
-COPY src /usr/src
 COPY files /
 RUN \
 	apt-get update -q && \
