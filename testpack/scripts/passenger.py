@@ -93,10 +93,6 @@ class Test1and1Image(Test1and1Common):
         time.sleep(2)
         self.file_mode_test("/var/run/nginx.pid", "-rw-r--r--")
 
-    def test_passenger_version(self):
-        version = self.execRun("passenger --version")
-        self.assertEqual("Phusion Passenger 6", version[:19])
-
     def test_docker_logs(self):
         expected_log_lines = [
             "Executing hook /hooks/entrypoint-pre.d/60_passenger_app_env",
